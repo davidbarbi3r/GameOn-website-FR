@@ -71,9 +71,13 @@ class Form {
 
 
     // if all inputs are valid submit form
-    if (checkFirstName && checkLastName && checkEmail && checkQuantity && checkConditions) {
-      console.log("form submitted");
-      this.formEl.submit();
+    if (checkFirstName && checkLastName && checkEmail && checkQuantity && checkConditions && checkLocation) {
+      
+      this.formEl.innerHTML = "<p>✅ Votre inscription à l'évènement a bien été prise en compte !</p>"
+      
+      setTimeout(() => {
+        this.formEl.submit();
+      }, 2000)
     }
   }
 
@@ -150,18 +154,25 @@ class Form {
         return true;
       }
 
-    // validation for general conditions checkbox
+    // location input validation
     } else if (type === "location") {
       let checked = false;
+
+      //iterate over all location radio buttons
       for (let i = 0; i < querySelector.length; i++) {
+
+        // if one of the radio buttons is checked return true
         if (querySelector[i].checked) {
           checked = true;
         }
       }
-
+      
+      // if no radio button is checked display error message
       if (checked === false) {
         this._setErrorFor("location", "Vous devez choisir une ville");
         return false;
+
+      // else success
       } else {
         this._setSuccessFor("location");
         return true;
@@ -170,6 +181,7 @@ class Form {
     
     
     
+    // validation for general conditions checkbox
     else if (type === "checkbox") {
       if (querySelector.checked === false) {
         this._setErrorFor(querySelector, "Vous devez accepter les conditions d'utilisation");

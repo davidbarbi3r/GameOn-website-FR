@@ -30,7 +30,7 @@ img {
   padding-right: 1rem;
 }
 
-.topnav {
+.topnav { 
   overflow: hidden;
   margin: 3.5%;
 }
@@ -52,7 +52,7 @@ img {
   font-family: Roboto, sans-serif;
 }
 
-.topnav a:hover {
+.topnav a:hover, .topnav .icon:hover {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
@@ -68,42 +68,7 @@ img {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
-  .topnav a {
-    display: none;
-  }
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-}
 
-@media screen and (max-width: 768px) {
-  .topnav.responsive {
-    position: relative;
-  }
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .topnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-}
-
-@media screen and (max-width: 540px) {
-  .topnav a {
-    display: none;
-  }
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
-  }
-}
 
 main {
   font-size: 130%;
@@ -212,7 +177,7 @@ input {
 }
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 0.5em;
   color: #e54858;
   display: block;
   margin-top: 7px;
@@ -410,7 +375,6 @@ input[data-error]::after {
   font-size: 16px;
 }
 .hero-section {
-  min-height: 93vh;
   border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -467,6 +431,8 @@ input[data-error]::after {
   height: 100%;
   display: block;
   padding: 0;
+  object-fit: cover;
+
 }
 .copyrights {
   color: #fe142f;
@@ -483,15 +449,60 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 842px) {
+  
+  .topnav {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .topnav a {
+    display: none;
+  }
+
+  .topnav a.icon {
+    float: right;
+    display: block;
+    color: #fe142f;
+  }
+
+  .header-logo img{
+    width: 180px;
+    padding: 12px 0;
+  }
+
+  .topnav.responsive {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .main-navbar {
+    width: 100%;
+  }
+
   .hero-section {
     display: block;
     box-shadow: unset;
   }
+
   .hero-content {
     background: #fff;
     color: #000;
     padding: 20px;
+    min-width: unset;
   }
   .hero-content::after {
     content: unset;
@@ -500,12 +511,13 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
+    font-size: 3rem;
     white-space: normal;
+    white-space: initial;
   }
   .hero-text {
-    width: unset;
-    font-size: 1.5rem;
+    width: 100%;
+    font-size: 1.2rem;
   }
   .hero-img img {
     border-radius: 10px;
@@ -520,6 +532,37 @@ footer {
     margin-top: 50px;
     text-align: center;
   }
+
+  .bground {
+    background: none;
+  }
+
+  .content {
+    margin: 100px 0 0 0;
+    width: 100%;
+    max-width: unset;
+    height: 100%;
+    position: fixed;
+    overflow: hidden;
+  }
+
+  .success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    position: relative;
+  }
+  .success .btn-submit {
+    position: absolute;
+    bottom: 10%;
+  }
+  .success p {
+    font-size: 36px;
+    text-align: center;
+  }
+
 }
 
 @keyframes modalopen {

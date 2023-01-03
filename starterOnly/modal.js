@@ -1,17 +1,24 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
+let x = document.getElementById("myTopnav");
+
+const editNav = () => {
+  console.log(x.className)
   if (x.className === "topnav") {
-    x.className += " responsive";
+      x.className += " responsive";
   } else {
-    x.className = "topnav";
+      x.className = "topnav";
   }
 }
+
+x.addEventListener("click", editNav);
 
 // modal class
 class Modal {
   constructor(openElDOM, closeElDOM, outsideModElDOM) {
-    this.openElDOM = document.querySelector(openElDOM);
-    this.closeElDOM = document.querySelector(closeElDOM);
+    //all because there are multiple buttons to open the modal
+    this.openElDOM = document.querySelectorAll(openElDOM);
+
+    //no need to querySelectorAll because there is only one button to close the modal
+    this.closeElDOM = document.querySelectorAll(closeElDOM);
     this.outsideModElDOM = document.querySelector(outsideModElDOM);
 
     this.event();
@@ -19,10 +26,14 @@ class Modal {
 
   event() {
     // launch modal event
-    this.openElDOM.addEventListener("click", this.launchModal.bind(this));
+    this.openElDOM.forEach((element) => {
+      element.addEventListener("click", this.launchModal.bind(this));
+    });
 
     // close modal event when X button pushed
-    this.closeElDOM.addEventListener("click", this.closeModal.bind(this));
+    this.closeElDOM.forEach((element) => {
+      element.addEventListener("click", this.closeModal.bind(this));
+    });
   }
 
   // launch modal form
@@ -32,11 +43,12 @@ class Modal {
 
   // Close modal form
   closeModal() {
+    console.log("click")
     this.outsideModElDOM.style.display = "none";
   }
 }
 
-const modal = new Modal(".modal-btn", ".close", ".bground", ".modal-body");
+const modal = new Modal(".modal-btn", ".close", ".bground");
 
 // form validation
 class Form {
@@ -88,11 +100,12 @@ class Form {
       checkLocation
     ) {
       this.formEl.innerHTML =
-        "<p>✅ Votre inscription à l'évènement a bien été prise en compte !</p>";
-
-      setTimeout(() => {
-        this.formEl.submit();
-      }, 2000);
+        `
+        <div class="success">
+          <p>Merci pour votre inscription</p>
+          <button class="btn-submit" onclick="modal.closeModal()">Fermer</button>
+        </div>
+        `
     }
   }
 
@@ -101,24 +114,24 @@ class Form {
     if (type === "text") {
       // if first name or last name is empty display error message
       if (querySelector.value.trim() === "") {
-        this._setErrorFor(querySelector, "Ce champ est requis");
+        this.#setErrorFor(querySelector, "Ce champ est requis");
         return false;
       }
 
       // if first name or last name is less than 2 characters display error message
       else if (querySelector.value.trim().length < 2) {
-        this._setErrorFor(
+        this.#setErrorFor(
           querySelector,
           "Ce champ doit comporter au moins 2 caractères"
         );
         return false;
       } else if (!isNaN(querySelector.value)) {
-        this._setErrorFor(querySelector, "Ce champ doit comporter du texte");
+        this.#setErrorFor(querySelector, "Ce champ doit comporter du texte");
         return false;
       }
       // else success
       else {
-        this._setSuccessFor(querySelector);
+        this.#setSuccessFor(querySelector);
         return true;
       }
 
@@ -126,18 +139,18 @@ class Form {
     } else if (type === "email") {
       // if email is empty display error message
       if (querySelector.value.trim() === "") {
-        this._setErrorFor(querySelector, "L'Email doit être renseigné");
+        this.#setErrorFor(querySelector, "L'Email doit être renseigné");
         return false;
       }
 
       // if email is not valid display error message
       else if (!utils.isEmail(querySelector.value.trim())) {
-        this._setErrorFor(querySelector, "L'Email renseigné n'est pas valide");
+        this.#setErrorFor(querySelector, "L'Email renseigné n'est pas valide");
         return false;
       }
       // else success
       else {
-        this._setSuccessFor(querySelector);
+        this.#setSuccessFor(querySelector);
         return true;
       }
 
@@ -145,7 +158,7 @@ class Form {
     } else if (type === "number") {
       // if participations is empty display error message
       if (querySelector.value.trim() === "") {
-        this._setErrorFor(
+        this.#setErrorFor(
           querySelector,
           "Il faut renseigner son nombre de participations"
         );
@@ -154,7 +167,7 @@ class Form {
 
       //if participations is not a number display error message
       else if (isNaN(querySelector.value)) {
-        this._setErrorFor(
+        this.#setErrorFor(
           querySelector,
           "Le nombre de participations doit être un nombre"
         );
@@ -163,7 +176,7 @@ class Form {
 
       //if participations is less than 0 or more than 99 display error message
       else if (querySelector.value < 0 || querySelector.value > 99) {
-        this._setErrorFor(
+        this.#setErrorFor(
           querySelector,
           "Le nombre de participations doit être compris entre 0 et 99"
         );
@@ -171,7 +184,7 @@ class Form {
       }
       // else success
       else {
-        this._setSuccessFor(querySelector);
+        this.#setSuccessFor(querySelector);
         return true;
       }
 
@@ -189,12 +202,12 @@ class Form {
 
       // if no radio button is checked display error message
       if (checked === false) {
-        this._setErrorFor("location", "Vous devez choisir une ville");
+        this.#setErrorFor("location", "Vous devez choisir une ville");
         return false;
 
         // else success
       } else {
-        this._setSuccessFor("location");
+        this.#setSuccessFor("location");
         return true;
       }
     }
@@ -202,19 +215,19 @@ class Form {
     // validation for general conditions checkbox
     else if (type === "checkbox") {
       if (querySelector.checked === false) {
-        this._setErrorFor(
+        this.#setErrorFor(
           querySelector,
           "Vous devez accepter les conditions d'utilisation"
         );
         return false;
       } else {
-        this._setSuccessFor(querySelector);
+        this.#setSuccessFor(querySelector);
         return true;
       }
     }
   }
 
-  _setErrorFor(inputEl, message) {
+  #setErrorFor(inputEl, message) {
     // display data-error message
     if (inputEl === "location") {
       document
@@ -229,7 +242,7 @@ class Form {
     }
   }
 
-  _setSuccessFor(inputEl) {
+  #setSuccessFor(inputEl) {
     // remove data-error message
     if (inputEl === "location") {
       document.getElementById("location-radio").removeAttribute("data-error");
@@ -261,6 +274,8 @@ const form = new Form(
   "#checkbox1",
   "#reserve"
 );
+
+
 document.getElementById(
   "copyrights"
 ).innerHTML = `Copyright 2012 - ${new Date().getFullYear()}, GameOn Inc.`;

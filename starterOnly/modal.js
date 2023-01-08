@@ -1,3 +1,4 @@
+// topnav open/close on click responsive
 let x = document.getElementById("myTopnav");
 
 const editNav = () => {

@@ -41,9 +41,10 @@ class Modal {
     this.outsideModElDOM.style.display = "block";
   }
 
-  // Close modal form
+  // Close modal form & reload page
   closeModal() {
     this.outsideModElDOM.style.display = "none";
+    window.location.reload();
   }
 }
 

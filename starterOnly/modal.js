@@ -2,7 +2,6 @@
 let x = document.getElementById("myTopnav");
 
 const editNav = () => {
-  console.log(x.className)
   if (x.className === "topnav") {
       x.className += " responsive";
   } else {
@@ -44,7 +43,6 @@ class Modal {
 
   // Close modal form
   closeModal() {
-    console.log("click")
     this.outsideModElDOM.style.display = "none";
   }
 }
@@ -83,10 +81,12 @@ class Form {
   // submit form
   submitForm(e) {
     e.preventDefault();
+    console.log(this.formEl.value)
 
     const checkFirstName = this.checkInput("text", this.firstNameEl);
     const checkLastName = this.checkInput("text", this.lastNameEl);
     const checkEmail = this.checkInput("email", this.emailEl);
+    const checkDate = this.checkInput("date", this.birthdateEl);
     const checkQuantity = this.checkInput("number", this.quantityEl);
     const checkLocation = this.checkInput("location", this.locationEl);
     const checkConditions = this.checkInput("checkbox", this.checkboxEl);
@@ -97,6 +97,7 @@ class Form {
       checkLastName &&
       checkEmail &&
       checkQuantity &&
+      checkDate &&
       checkConditions &&
       checkLocation
     ) {
@@ -225,6 +226,33 @@ class Form {
         this.#setSuccessFor(querySelector);
         return true;
       }
+    } 
+
+    // validation for date input
+    else if (type === "date") {
+      // if date is empty display error message
+      if (querySelector.value.trim() === "") {
+        this.#setErrorFor(querySelector, "La date de naissance doit être renseignée");
+        return false;
+      }
+
+      // if date is not valid display error message
+      else if (!utils.isDateFormat(querySelector.value.trim())) {
+        this.#setErrorFor(querySelector, "La date de naissance renseignée n'est pas valide");
+        return false;
+      }
+
+      // if date is future display error message
+      else if (utils.isDateFuture(querySelector.value.trim())) {
+        this.#setErrorFor(querySelector, "La date de naissance renseignée ne peut pas être future");
+        return false;
+      }
+
+      // else success
+      else {
+        this.#setSuccessFor(querySelector);
+        return true;
+      }
     }
   }
 
@@ -258,10 +286,29 @@ class Form {
 }
 
 const utils = {
+
+  // check if email is valid
   isEmail(email) {
     return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
       email
     );
+  },
+
+  // check if date is in the correct format
+  isDateFormat(date) {
+    return /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.test(date);
+  },
+
+  // check if date is in the past
+  isDateFuture(date) {
+    let dateArray = date.split("-");
+    console.log(dateArray);
+    let dateObject = new Date(dateArray[0], dateArray[1], dateArray[2]);
+    let today = new Date();
+    if (dateObject > today) {
+      return true;
+    }
+    return false;
   },
 };
 

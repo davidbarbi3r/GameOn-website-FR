@@ -303,6 +303,22 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+
+.success {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.success p {
+  font-family: "DM Sans";
+  font-size: 36px;
+  text-align: center;
+  font-weight: 400;
+}
+
 /* custom select styles */
 .custom-select {
   position: relative;
@@ -535,15 +551,46 @@ footer {
 
   .bground {
     background: none;
+    overflow: auto;
   }
 
   .content {
-    margin: 100px 0 0 0;
+    margin: 80px 0 0 0;
     width: 100%;
     max-width: unset;
-    height: 100%;
+    height: 100vh;
     position: fixed;
     overflow: hidden;
+  }
+
+  label {
+    font-size: 14px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+  }
+
+  .text-label {
+    font-size: 14px;
+  }
+
+  .checkbox-label {
+    font-size: 12px;
+  }
+
+  .content input {
+    height: 35px;
+  }
+
+  .modal-body {
+    height: 75vh;
+    margin: 0;
+  }
+
+  .modal-body form {
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .success {
@@ -551,7 +598,7 @@ footer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50vh;
+    height: 90vh;
     position: relative;
   }
   .success .btn-submit {

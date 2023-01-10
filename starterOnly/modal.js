@@ -105,6 +105,7 @@ class Form {
       this.formEl.innerHTML =
         `
         <div class="success">
+          <div></div>
           <p>Merci pour votre inscription</p>
           <button class="btn-submit" onclick="modal.closeModal()">Fermer</button>
         </div>
